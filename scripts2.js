@@ -1,21 +1,16 @@
-// document.addEventListener("DOMContentLoaded", function (){
-  import { getFirestore, doc } from 'firebase/firestore';
-src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
-
-  const db = firebase.firestore();
+const db = firebase.firestore();
+document.addEventListener("DOMContentLoaded", function () {
   const searchInput = document.querySelector('#search')
   const secData = document.querySelector('.filmesSelected')
   const form = document.querySelector('form')
   const select = document.getElementsByClassName('select')
   const filmList = document.getElementById('filmeList')
-  
-  
 
   // filmList.addEventListener('click', )
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    
+
     searchMovie()
 
   })
@@ -33,9 +28,6 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
 
   function searchMovie() {
     let searchValue = searchInput.value
-    
-    
-    
     console.log("searchValue", searchValue)
 
      fetch(`https://imdb8.p.rapidapi.com/auto-complete?q=${searchValue}`, {
@@ -71,16 +63,13 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
       .catch(err => {
         console.error(err);
       })
-      
-      return 
   }
-
+})
 
 
 function check(element) {
   const db = firebase.firestore();
-debugger
-//Select movie card
+//select the card
   const selected = element.parentElement;
   console.log("selected", selected)
   
@@ -89,10 +78,10 @@ debugger
     element.innerHTML = "SELECT";
     element.removeAttribute('class', 'delet')
     element.setAttribute('class', 'choose')
-
+    //GET MOVIE ID
     let getid = selected.getAttribute('id')
     console.log('esse eh o getid', getid)
-    db.collection(`${userx.uid}`).doc(`${getid}`).delete()
+    db.collection('Users').doc(`${getid}`).delete()
   }else{
   const colocar = document.querySelector('.filmesSelected')
   
@@ -100,10 +89,9 @@ debugger
   element.innerText = "Delete"
   element.setAttribute('class', "delet")
  //
- 
+//  const user = firebase.auth().currentUser
  //
- let userx = firebase.auth().currentUser
-  db.collection(`${userx.uid}`).add({
+  db.collection('Users').add({
     movie: selected.innerHTML,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     
@@ -147,8 +135,3 @@ function showMovies(){
 
 
 showMovies()
-
-  // })
-  firebase.firestore().collection('usuario3').add({nome:'ronaldo',sobrenome:'farias',}).then(function(qq){
-    console.log(qq)
-  })
