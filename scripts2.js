@@ -5,10 +5,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector('form')
   const select = document.getElementsByClassName('select')
   const filmList = document.getElementById('filmeList')
+  const creatlist = document.getElementById('CreatList')
+  
 
   // filmList.addEventListener('click', )
 
   form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    searchMovie()
+
+  })
+  creatlist.addEventListener("submit", function (event) {
     event.preventDefault();
 
     searchMovie()

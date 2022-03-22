@@ -1,5 +1,5 @@
 // document.addEventListener("DOMContentLoaded", function (){
-  import { getFirestore, doc } from 'firebase/firestore';
+
 src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
 
   const db = firebase.firestore();
@@ -8,10 +8,11 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   const form = document.querySelector('form')
   const select = document.getElementsByClassName('select')
   const filmList = document.getElementById('filmeList')
+  const crialista = document.getElementById('CreatList')
+  const namelist = document.getElementById('ListName')
   
-  
+  let userx = null;
 
-  // filmList.addEventListener('click', )
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -19,6 +20,58 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
     searchMovie()
 
   })
+
+
+  //get user-UID
+  firebase.auth().onAuthStateChanged(user => {
+    if(user){
+      userx = user.uid;
+      console.log('usuarioID',userx)
+    }else{
+      return
+    }
+    
+    })
+
+  //CRIA LISTA
+  
+
+    function crialistax(){
+      //No blank namelist-fail
+      if(!namelist){
+        console.log('preencha o campo')
+        return
+      }
+      
+        
+      
+
+      let createlist = `<section>
+    <details>
+      <summary >${namelist.value}</summary>
+      <section id='${userx}' class="filmesSelected">
+        
+      </section>
+    </details>
+  </section>`  
+
+      if(userx){
+        //CREATE DB LIST
+        db.collection('Lists').add({
+          listadefilme: createlist
+        }).then(function(doc){
+          console.log(doc.id)
+        }).catch(err=>console.log("err", err))
+
+        
+    
+    
+    console.log("cria section")
+
+      }    
+    }
+      
+  
   function removeElement() {
     const chk = document.querySelectorAll(".uncheck");
     chk.forEach((item) => {
@@ -92,7 +145,7 @@ debugger
 
     let getid = selected.getAttribute('id')
     console.log('esse eh o getid', getid)
-    db.collection(`${userx.uid}`).doc(`${getid}`).delete()
+    db.collection(`${userx}`).doc(`${getid}`).delete()
   }else{
   const colocar = document.querySelector('.filmesSelected')
   
@@ -102,8 +155,8 @@ debugger
  //
  
  //
- let userx = firebase.auth().currentUser
-  db.collection(`${userx.uid}`).add({
+//  let userx = firebase.auth().currentUser
+  db.collection(`${userx}`).add({
     movie: selected.innerHTML,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     
@@ -123,7 +176,7 @@ debugger
 }
 //LOAD FILM LIST
 function showMovies(){
-  db.collection("Users")
+  db.collection(userx)
     .orderBy("timestamp")
     .onSnapshot(
       (querySnapshot) => {
@@ -148,7 +201,40 @@ function showMovies(){
 
 showMovies()
 
+
+function displayLists(){
+db.collection("Lists")
+        .onSnapshot(
+      (querySnapshot) => {
+        let output = '';
+        const putLists = document.getElementById('AllLists')
+
+        querySnapshot.forEach((doc) => {
+          console.log("doc.data do forEach", doc.data())
+          output += `${doc.data().listadefilme}`;
+          //get userID
+          let userListId = output.slice(43,71)
+          if(userx===userListId){
+            console.log('userlistId',userListId)
+            console.log('userx',userx)
+          }
+          
+          // console.log("doc.id", doc.id)
+        });
+        
+        putLists.innerHTML = output;
+        // console.log("output",output)
+      },
+      (error) => {
+        console.log(error)
+      }
+
+    );
+    
+      document.getElementById('AllLists').innerHTML += createlist;
+    }
+    displayLists()
   // })
-  firebase.firestore().collection('usuario3').add({nome:'ronaldo',sobrenome:'farias',}).then(function(qq){
-    console.log(qq)
-  })
+  // firebase.firestore().collection('usuario3').add({nome:'ronaldo',sobrenome:'farias',}).then(function(qq){
+  //   console.log(qq)
+  getuser()
