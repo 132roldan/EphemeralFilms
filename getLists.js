@@ -12,7 +12,7 @@ const AllLists = document.getElementById('AllLists')
 let output = '';
 let secData_ = document.querySelector(`#${userx}`)
 async function test(){
- await firebase.firestore().collection('Lists').get().then((r)=>(r.docs)).then((r)=>r.forEach((doc)=>{
+ await firebase.firestore().collection('Lists').onSnapshot((qS)=>qS.forEach((doc)=>{
   let user = (doc.data().user);
   let listname_ = (doc.data().listname);
    firebase.firestore().collection(`${user}`)
