@@ -1,28 +1,42 @@
-//  src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"
-//      src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"
-//       src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
-    
-//        const firebaseConfig = {
-//   apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
-//   authDomain: "ephemeral-films.firebaseapp.com",
-//   projectId: "ephemeral-films",
-//   storageBucket: "ephemeral-films.appspot.com",
-//   messagingSenderId: "619401059069",
-//   appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
-// }
+// let nameList
+// let createlist = `<section>
+//   <details>
+//     <summary id="lista">${namelist_}</summary>
+//     <section id='${userx}' class="filmesSelected">
+      
+//     </section>
+//   </details>
+// </section>`
 
-firebase.firestore().collection('Lists').get().then((r)=>(r.docs)).then((r)=>r.forEach((doc)=>{
+const AllLists = document.getElementById('AllLists')
+let output = '';
+let secData_ = document.querySelector(`#${userx}`)
+async function test(){
+ await firebase.firestore().collection('Lists').get().then((r)=>(r.docs)).then((r)=>r.forEach((doc)=>{
   let user = (doc.data().user);
-  firebase.firestore().collection(`${user}`)
-  .orderBy("timestamp").onSnapshot((qS)=>qS.forEach((doc)=>{
+  let listname_ = (doc.data().listname);
+   firebase.firestore().collection(`${user}`)
+  .orderBy("timestamp").onSnapshot((qS)=>
     
-  output += `<li id='${doc.id}' >${doc.data().movie}</li>`;
+    qS.forEach((doc)=>{debugger
+    
+   output += `<li id='${doc.id}' >${doc.data().movie}</li>`;
   console.log("doc.id", doc.id)
 
   }))
+  AllLists.innerHTML += `<section>
+  <details>
+    <summary id="lista">${listname_}</summary>
+    <section id='${userx}' class="filmesSelected">
+      
+    </section>
+  </details>
+</section>`
+console.log('output: ',output)
+  secData.innerHTML = output
 
 }))
   
-    
+}   test()
   
 

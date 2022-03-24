@@ -18,6 +18,14 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   }
   let userx = null;
 
+  let createlist = `<section>
+  <details>
+    <summary id="lista">${namelist.value}</summary>
+    <section id='${userx}' class="filmesSelected">
+      
+    </section>
+  </details>
+</section>`
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -46,14 +54,14 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
       let a
       //create model list
       
-  let createlist = `<section>
-  <details>
-    <summary id="lista">${namelist.value}</summary>
-    <section id='${userx}' class="filmesSelected">
+//   let createlist = `<section>
+//   <details>
+//     <summary id="lista">${namelist.value}</summary>
+//     <section id='${userx}' class="filmesSelected">
       
-    </section>
-  </details>
-</section>`
+//     </section>
+//   </details>
+// </section>`
 
       //If is not login
       if(!userx){
@@ -96,7 +104,8 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
            }if(a!==0 && b ===0 ){
            db.collection('Lists').add({
               listadefilme: createlist,
-              user: userx
+              user: userx,
+              listname: namelist,
               
             })
           }
