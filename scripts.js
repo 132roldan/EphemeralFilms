@@ -16,16 +16,12 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   await db.collection('Lists').get().then((r)=> r.empty).then((r)=>{emptyList = r})
   
   }
+  if(!emptyList){
+    displayLists()
+  }
   let userx = null;
 
-  let createlist = `<section>
-  <details>
-    <summary id="lista">${namelist.value}</summary>
-    <section id='${userx}' class="filmesSelected">
-      
-    </section>
-  </details>
-</section>`
+  
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -33,6 +29,13 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
     searchMovie()
 
   })
+//check how many Docs in DB
+  function dbLenght(db){
+    let l = 0
+    firebase.firestore().collection(db).onSnapshot((r)=>l = r.docs.length)
+    console.log('valor de l ',l)
+    return l
+  }
 
 
   //get user-UID
@@ -51,9 +54,17 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   
 
        function crialistax(){
+         let NL = namelist.value
       let a
       //create model list
+      let createlist = `<section>
+  <details>
+    <summary id="lista">${NL}</summary>
+    <section id='${userx}' class="filmesSelected">
       
+    </section>
+  </details>
+</section>`
 //   let createlist = `<section>
 //   <details>
 //     <summary id="lista">${namelist.value}</summary>
@@ -68,7 +79,7 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
         alert('please Login',userx)
         return
       }//If not puut a name
-      if(!namelist.value){
+      if(!NL){
         alert('please choose a List Name')
         return
       }//if list not exist
@@ -82,32 +93,49 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
       if(emptyList){
 
        db.collection('Lists').add({
+         
           listadefilme: createlist,
-          user: userx
+          user: userx,
+          listname: NL,
           
         })
         console.log('lista criada')
-        return
+        debugger
+        displayLists()
 
-      }else{  a = 0
-              b = 0
-      
+      }else{  
+        a = 0
+        let i = 0;
          db.collection("Lists").onSnapshot((qS) => {
-           qS.forEach((doc) => { 
-            a += 1
-           if(`${doc.data().user}` === userx){
+           qS.forEach((doc) => {
+            debugger
+            let user = (doc.data().user) 
+            let l = dbLenght("Lists"); 
+            
+            
+            
+             
+            i++
+           if(user === userx && a!==1){
+             a = 1
              alert('You already have a list!')
-            b =  1
+            
+             }
             
            
-           return
-           }if(a!==0 && b ===0 ){
+           
+           if(i > l && a === 0 ){
+            debugger
            db.collection('Lists').add({
               listadefilme: createlist,
               user: userx,
-              listname: namelist,
+              listname: NL,
               
             })
+            
+            displayLists()
+            a = 1
+
           }
            
           })
@@ -252,37 +280,37 @@ function showMovies(){
 showMovies()
 
 
-function displayLists(){
-db.collection("Lists")
-        .onSnapshot(
-      (querySnapshot) => {
-        let output = '';
-        const putLists = document.getElementById('AllLists')
+// function displayLists(){
+// db.collection("Lists")
+//         .onSnapshot(
+//       (querySnapshot) => {
+//         let output = '';
+//         const putLists = document.getElementById('AllLists')
 
-        querySnapshot.forEach((doc) => {
-          console.log("doc.data do forEach", doc.data())
-          if(`${doc.data().user}` === userx){
-          output += `${doc.data().listadefilme}`;
-          //get userID
+//         querySnapshot.forEach((doc) => {
+//           console.log("doc.data do forEach", doc.data())
+//           if(`${doc.data().user}` === userx){
+//           output += `${doc.data().listadefilme}`;
+//           //get userID
           
             
-          }
-          putLists.innerHTML = output;
-          // console.log("doc.id", doc.id)
-        });
+//           }
+//           putLists.innerHTML = output;
+//           // console.log("doc.id", doc.id)
+//         });
         
         
-        // console.log("output",output)
-      },
-      (error) => {
-        console.log(error)
-      }
+//         // console.log("output",output)
+//       },
+//       (error) => {
+//         console.log(error)
+//       }
 
-    );
+//     );
     
-      document.getElementById('AllLists').innerHTML += createlist;
-    }
-    displayLists()
+//       document.getElementById('AllLists').innerHTML += createlist;
+//     }
+//     displayLists()
  
    function logoff(){
     firebase.auth().onAuthStateChanged(function (user){
@@ -298,3 +326,34 @@ async function isEmpty(){
 return empty
 }
 isEmpty()
+
+function displayLists(){
+  db.collection("Lists")
+          .onSnapshot(
+        (qS) => {
+          debugger
+          let Io = '';
+          const putLists = document.getElementById('AllLists')
+  
+          qS.forEach((doc) => {
+            //check if is the current user
+            if(`${doc.data().user}` === userx){
+              debugger
+            Io += `${doc.data().listadefilme}`;
+            //get userID
+                         
+            }
+            putLists.innerHTML = Io;
+            // console.log("doc.id", doc.id)
+          });
+                    
+          // console.log("output",output)
+        },
+        (error) => {
+          console.log(error)
+        }
+  
+      );
+      
+        
+      }
