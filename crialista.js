@@ -1,10 +1,16 @@
+let empty 
+async function run(){
+  await db.collection('Lists').get().then((r)=> r.empty).then((r)=>{emptyList = r})
+  
+  }run()
+
 function crialistax(){
 let NL = namelist.value
 //create model list
 let createlist = `<section>
 <details>
-<summary id="lista">${NL}</summary>
-<section id='${userx}' class="filmesSelected">
+<summary id='${userx}'>${NL}</summary>
+<section class="filmesSelected">
 
 </section>
 </details>
@@ -19,5 +25,12 @@ if(!NL){
  return
 }//if list not exist
 putLists.innerHTML = createlist;
+debugger
+db.collection('Lists').add({
+  
+  listadefilme: createlist,
+  user: userx,
+  listname: NL,
+})
 }
 
