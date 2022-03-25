@@ -1,4 +1,5 @@
 let empty 
+
 async function run(){
   await db.collection('Lists').get().then((r)=> r.empty).then((r)=>{emptyList = r})
   
@@ -9,8 +10,8 @@ let NL = namelist.value
 //create model list
 let createlist = `<section>
 <details>
-<summary id='${userx}'>${NL}</summary>
-<section class="filmesSelected">
+<summary id='lista'>${NL}</summary>
+<section id='${userx}'class="filmesSelected">
 
 </section>
 </details>

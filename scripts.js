@@ -18,7 +18,7 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   
   }
   if(!emptyList){
-    displayLists()
+    userList()
   }
   let userx = null;
 
@@ -28,6 +28,7 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
     event.preventDefault();
     
     searchMovie()
+    showMovies()
 
   })
 //check how many Docs in DB
@@ -207,52 +208,54 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
 
 
 
-function check(element) {
-  const db = firebase.firestore();
-
-//Select movie card
-  const selected = element.parentElement;
-  console.log("selected", selected)
+  function check(element) {
+    const db = firebase.firestore();
   
-  // selected.classList.toggle('uncheck')
-  if(element.getAttribute('class') === 'delet'){
-    element.innerHTML = "SELECT";
-    element.removeAttribute('class', 'delet')
-    element.setAttribute('class', 'choose')
-
-    let getid = selected.getAttribute('id')
-    console.log('esse eh o getid', getid)
-    db.collection(`${userx}`).doc(`${getid}`).delete()
-  }else{
-  const colocar = document.querySelector('.filmesSelected')
+  //Select movie card
+    const selected = element.parentElement;
+    // const Pselected = selected.parentElement;
+    // console.log("selected", selected)
+    // if(userx === Pselected.getAttribute('id')){
+    // selected.classList.toggle('uncheck')
+    if(element.getAttribute('class') === 'delet'){
+      element.innerHTML = "SELECT";
+      element.removeAttribute('class', 'delet')
+      element.setAttribute('class', 'choose')
   
-
-  element.innerText = "Delete"
-  element.setAttribute('class', "delet")
- //
- 
- //
-//  let userx = firebase.auth().currentUser
-  db.collection(`${userx}`).add({
-    movie: selected.innerHTML,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      let getid = selected.getAttribute('id')
+      console.log('esse eh o getid', getid)
+      db.collection(`${userx}`).doc(`${getid}`).delete()
+    }else{
+    const colocar = document.querySelector('.filmesSelected')
     
-
-  }).then(function (doc) {
-    console.log('Document written with id:', doc.id);
-    selected.setAttribute("id", doc.id)
-    selected = '';
-
-
-
-  }).catch(function (err) {
-    console.log(error, err)
-  })
-}
-    showMovies()  
-}
+  
+    element.innerText = "Delete"
+    element.setAttribute('class', "delet")
+   //
+   
+   //
+  //  let userx = firebase.auth().currentUser
+    db.collection(userx).add({
+      movie: selected.innerHTML,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      
+  
+    }).then(function (doc) {
+      console.log('Document written with id:', doc.id);
+      selected.setAttribute("id", doc.id)
+      selected = '';
+  
+  
+  
+    }).catch(function (err) {
+      console.log(error, err)
+    })
+  }
+   showMovies()
+  }
 //LOAD FILM LIST
 function showMovies(){
+  debugger
   if(document.getElementById('lista')){
   
   db.collection(`${userx}`)
@@ -328,36 +331,35 @@ return empty
 }
 isEmpty()
 
-function displayLists(){
-  db.collection("Lists")
-          .onSnapshot(
-        (qS) => {
-          // debugger
-          let Io = '';
-          
+// function displayList(){
+//   db.collection("Lists")
+//           .onSnapshot(
+//         (qS) => {
+//           // debugger
+//           let Io = '';          
   
-          qS.forEach((doc) => {
-            //check if is the current user
-            if(`${doc.data().user}` === userx){
-              // debugger
-            Io += `${doc.data().listadefilme}`;
-            //get userID
+//           qS.forEach((doc) => {
+//             //check if is the current user
+//             if(`${doc.data().user}` === userx){
+//               // debugger
+//             Io += `${doc.data().listadefilme}`;
+//             //get userID
                          
-            }
-            putLists.innerHTML = Io;
-            // console.log("doc.id", doc.id)
-          });
+//             }
+//             putLists.innerHTML = Io;
+//             // console.log("doc.id", doc.id)
+//           });
                     
-          // console.log("output",output)
-        },
-        (error) => {
-          console.log(error)
-        }
+//           // console.log("output",output)
+//         },
+//         (error) => {
+//           console.log(error)
+//         }
   
-      );
+//       );
       
         
-      }
+//       }displayList()
       function crialistax(){
         let NL = namelist.value
         //create model list
@@ -378,5 +380,40 @@ function displayLists(){
          alert('please choose a List Name')
          return
         }//if list not exist
-        putLists.innerHTML = createlist;
-        }
+        debugger
+db.collection('Lists').add({
+  
+  listadefilme: createlist,
+  user: userx,
+  listname: NL,
+})
+}
+
+
+
+        function userList(){
+          db.collection("Lists")
+        .onSnapshot(
+      (querySnapshot) => {
+        let output = '';
+        
+        const putLists = document.getElementById('AllLists')
+
+        querySnapshot.forEach((doc) => {
+          let user = (doc.data().user)
+          let listaFilme = (doc.data().listadefilme)
+          // console.log(listaFilme)
+          let _listaname = (doc.data().listname) 
+          
+          if(user === userx){
+          output += `${doc.data().listadefilme}`;
+          debugger
+            putLists.innerHTML = output
+            
+          }
+        })
+      })
+      showMovies()
+    }    userList()
+    document.addEventListener('click', function(){showMovies()})
+    
