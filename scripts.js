@@ -10,6 +10,7 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   const filmList = document.getElementById('filmeList')
   const crialista = document.getElementById('CreatList')
   const namelist = document.getElementById('ListName')
+  const putLists = document.getElementById('AllLists')
   let emptyList
   let empty 
  async function run(){
@@ -53,98 +54,98 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   //CRIA LISTA
   
 
-       function crialistax(){
-         let NL = namelist.value
-      let a
-      //create model list
-      let createlist = `<section>
-  <details>
-    <summary id="lista">${NL}</summary>
-    <section id='${userx}' class="filmesSelected">
-      
-    </section>
-  </details>
-</section>`
-//   let createlist = `<section>
+//        function crialistax(){
+//          let NL = namelist.value
+//       let a
+//       //create model list
+//       let createlist = `<section>
 //   <details>
-//     <summary id="lista">${namelist.value}</summary>
+//     <summary id="lista">${NL}</summary>
 //     <section id='${userx}' class="filmesSelected">
       
 //     </section>
 //   </details>
 // </section>`
+// //   let createlist = `<section>
+// //   <details>
+// //     <summary id="lista">${namelist.value}</summary>
+// //     <section id='${userx}' class="filmesSelected">
+      
+// //     </section>
+// //   </details>
+// // </section>`
 
-      //If is not login
-      if(!userx){
-        alert('please Login',userx)
-        return
-      }//If not puut a name
-      if(!NL){
-        alert('please choose a List Name')
-        return
-      }//if list not exist
+//       //If is not login
+//       if(!userx){
+//         alert('please Login',userx)
+//         return
+//       }//If not puut a name
+//       if(!NL){
+//         alert('please choose a List Name')
+//         return
+//       }//if list not exist
       
      
      
      
 
       
-      run()
-      if(emptyList){
+//       run()
+//       if(emptyList){
 
-       db.collection('Lists').add({
+//        db.collection('Lists').add({
          
-          listadefilme: createlist,
-          user: userx,
-          listname: NL,
+//           listadefilme: createlist,
+//           user: userx,
+//           listname: NL,
           
-        })
-        console.log('lista criada')
-        debugger
-        displayLists()
+//         })
+//         console.log('lista criada')
+//         debugger
+//         displayLists()
 
-      }else{  
-        a = 0
-        let i = 0;
-         db.collection("Lists").onSnapshot((qS) => {
-           qS.forEach((doc) => {
-            debugger
-            let user = (doc.data().user) 
-            let l = dbLenght("Lists"); 
+//       }else{  
+//         a = 0
+//         let i = 0;
+//          db.collection("Lists").onSnapshot((qS) => {
+//            qS.forEach((doc) => {
+//             debugger
+//             let user = (doc.data().user) 
+//             let l = dbLenght("Lists"); 
             
             
             
              
-            i++
-           if(user === userx && a!==1){
-             a = 1
-             alert('You already have a list!')
+//             i++
+//            if(user === userx && a!==1){
+//              a = 1
+//              alert('You already have a list!')
             
-             }
+//              }
             
            
            
-           if(i > l && a === 0 ){
-            debugger
-           db.collection('Lists').add({
-              listadefilme: createlist,
-              user: userx,
-              listname: NL,
+//            if(i > l && a === 0 ){
+//             debugger
+//            db.collection('Lists').add({
+//               listadefilme: createlist,
+//               user: userx,
+//               listname: NL,
               
-            })
+//             })
             
-            displayLists()
-            a = 1
+//             displayLists()
+//             a = 1
 
-          }
+//           }
            
-          })
+//           })
             
-      })
+//       })
       
-    }
+//     }
       
-  }
+//   }
       
    
 
@@ -331,14 +332,14 @@ function displayLists(){
   db.collection("Lists")
           .onSnapshot(
         (qS) => {
-          debugger
+          // debugger
           let Io = '';
-          const putLists = document.getElementById('AllLists')
+          
   
           qS.forEach((doc) => {
             //check if is the current user
             if(`${doc.data().user}` === userx){
-              debugger
+              // debugger
             Io += `${doc.data().listadefilme}`;
             //get userID
                          
@@ -357,3 +358,25 @@ function displayLists(){
       
         
       }
+      function crialistax(){
+        let NL = namelist.value
+        //create model list
+        let createlist = `<section>
+        <details>
+        <summary id="lista">${NL}</summary>
+        <section id='${userx}' class="filmesSelected">
+        
+        </section>
+        </details>
+        </section>`
+        
+        if(!userx){
+         alert('please Login',userx)
+         return
+        }//If not puut a name 
+        if(!NL){
+         alert('please choose a List Name')
+         return
+        }//if list not exist
+        putLists.innerHTML = createlist;
+        }
