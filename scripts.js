@@ -11,6 +11,8 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   const crialista = document.getElementById('CreatList')
   const namelist = document.getElementById('ListName')
   const putLists = document.getElementById('AllLists')
+  
+
   let emptyList
   let empty 
  async function run(){
@@ -385,25 +387,26 @@ isEmpty()
           let i = 0;
            db.collection("Lists").onSnapshot((qS) => {
              qS.forEach((doc) => {
-              debugger
+              // debugger
               let user = (doc.data().user) 
                firebase.firestore().collection('Lists').get().then((r)=>l = r.docs.length) 
               console.log('valor de l', l)
               i++
              if(user === userx && a!==1){
-               debugger
+              //  debugger
                a = 1
                alert('You already have a list!')
               return
                }
               
              if(i === l && a === 0 ){
-              debugger
+              // debugger
               a = 1
              db.collection('Lists').add({
                 listadefilme: createlist,
                 user: userx,
                 listname: NL,
+                nickname: firebase.auth().currentUser.displayName
                 
               })  
             }
