@@ -46,16 +46,18 @@ function displaylists(){
            db.collection("Lists").onSnapshot((qS) => {
              //get Users
              qS.forEach((doc) => {
-              debugger
+              
               let user = (doc.data().user)
               let listaFilme = (doc.data().listadefilme)
               console.log(listaFilme)
               let _listaname = (doc.data().listname) 
-              debugger
+              
               AllLists.innerHTML += listaFilme
+              
               db.collection(user).onSnapshot((qS) => {
                 let output = '';
         const secData = document.querySelector(`#${user}`)
+        secData.innerHTML = output;
                 //get movies
                 qS.forEach((doc) => {
                   output += `<li id='${doc.id}' >${doc.data().movie}</li>`

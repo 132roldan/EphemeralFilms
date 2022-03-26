@@ -31,13 +31,14 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
     showMovies()
 
   })
+  let l
 //check how many Docs in DB
-  function dbLenght(db){
-    let l = 0
-    firebase.firestore().collection(db).onSnapshot((r)=>l = r.docs.length)
-    console.log('valor de l ',l)
-    return l
-  }
+let a
+  
+    a = firebase.firestore().collection('Lists').get().then((r)=>r.docs.length)
+      
+    
+  a.then((r)=>l=r)
 
 
   //get user-UID
@@ -255,7 +256,7 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   }
 //LOAD FILM LIST
 function showMovies(){
-  debugger
+  // debugger
   if(document.getElementById('lista')){
   
   db.collection(`${userx}`)
@@ -266,7 +267,7 @@ function showMovies(){
         const secData = document.querySelector(`#${userx}`)
 
         qS.forEach((doc) => {
-          console.log("doc.data do forEach", doc.data())
+          
           output += `<li id='${doc.id}' >${doc.data().movie}</li>`;
           console.log("doc.id", doc.id)
         });
@@ -379,15 +380,40 @@ isEmpty()
         if(!NL){
          alert('please choose a List Name')
          return
-        }//if list not exist
-        debugger
-db.collection('Lists').add({
-  
-  listadefilme: createlist,
-  user: userx,
-  listname: NL,
-})
+        }
+        a = 0
+          let i = 0;
+           db.collection("Lists").onSnapshot((qS) => {
+             qS.forEach((doc) => {
+              debugger
+              let user = (doc.data().user) 
+               firebase.firestore().collection('Lists').get().then((r)=>l = r.docs.length) 
+              console.log('valor de l', l)
+              i++
+             if(user === userx && a!==1){
+               debugger
+               a = 1
+               alert('You already have a list!')
+              return
+               }
+              
+             if(i === l && a === 0 ){
+              debugger
+              a = 1
+             db.collection('Lists').add({
+                listadefilme: createlist,
+                user: userx,
+                listname: NL,
+                
+              })  
+            }
+          })
+        })
+        
+
 }
+
+
 
 
 
@@ -407,7 +433,7 @@ db.collection('Lists').add({
           
           if(user === userx){
           output += `${doc.data().listadefilme}`;
-          debugger
+          
             putLists.innerHTML = output
             
           }
