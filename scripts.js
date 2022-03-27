@@ -238,7 +238,7 @@ let a
    
    //
   //  let userx = firebase.auth().currentUser
-    db.collection(userx).add({
+    db.collection(userx).doc(selected.getElementsByTagName('h2')[0].innerHTML).set({
       movie: selected.innerHTML,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       

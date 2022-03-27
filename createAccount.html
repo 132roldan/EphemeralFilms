@@ -67,10 +67,16 @@
           return;
           }
 
+
+
           firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
       .then(function (data){
         console.log('user created', data);
         const user = firebase.auth().currentUser;
+        db.collection("nick").doc(user).update({
+          nickname:nickname.value
+
+        })
         
 
       }).catch((err)=> console.log('err', err));

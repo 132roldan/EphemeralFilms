@@ -32,6 +32,7 @@ db.collection('Lists').add({
   listadefilme: createlist,
   user: userx,
   listname: NL,
+  nickname: firebase.auth().currentUser.displayName,
 })
 }
 

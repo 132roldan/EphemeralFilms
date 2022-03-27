@@ -53,6 +53,7 @@
       })
 
       submit.addEventListener('click', function (){
+        event.preventDefault()
         if(!email.value || !password.value){ 
           console.log('preencher dados');
           return;
