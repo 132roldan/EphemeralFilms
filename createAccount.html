@@ -37,7 +37,22 @@
     
 
   </form>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script  src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    
+    const firebaseConfig = {
+apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
+authDomain: "ephemeral-films.firebaseapp.com",
+projectId: "ephemeral-films",
+storageBucket: "ephemeral-films.appspot.com",
+messagingSenderId: "619401059069",
+appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
+};
 
+      firebase.initializeApp(firebaseConfig)
+  </script> 
   <script>
     
       const email = document.getElementById('email')
@@ -45,6 +60,7 @@
       const password = document.getElementById('password')
       const submit = document.getElementById('submit')
       const loginGoogleBtn = document.getElementById('loginGoogleBtn')
+      const db = firebase.firestore()
 
       loginGoogleBtn.addEventListener('click', function(){
         if(!nickname.value){
@@ -57,6 +73,7 @@
         firebase.auth().signInWithPopup(provider).then(function(){
           const user = firebase.auth().currentUser;
           console.log("user", user);
+          
         })
 
       })
@@ -72,7 +89,17 @@
           firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
       .then(function (data){
         console.log('user created', data);
-        firebase.auth().onAuthStateChanged(user => {
+        
+        
+        
+
+      }).catch((err)=> console.log('err', err));
+        firebase.auth().onAuthStateChanged(function (user) {
+          // if(user) window.location = "index.html"
+        })
+      })
+
+      firebase.auth().onAuthStateChanged(user => {
     if(user){
       userx = user.uid;
       console.log('usuarioID',userx)
@@ -92,33 +119,10 @@
       })
     }
   })
-        
-        
-
-      }).catch((err)=> console.log('err', err));
-        firebase.auth().onAuthStateChanged(function (user) {
-          // if(user) window.location = "index.html"
-        })
-      })
     
-  </script>
+</script>
   
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script  src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script>
-      
-      const firebaseConfig = {
-  apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
-  authDomain: "ephemeral-films.firebaseapp.com",
-  projectId: "ephemeral-films",
-  storageBucket: "ephemeral-films.appspot.com",
-  messagingSenderId: "619401059069",
-  appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
-};
-
-        firebase.initializeApp(firebaseConfig)
-    </script> 
+ 
   
   
   

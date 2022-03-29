@@ -34,12 +34,29 @@
 
   </form>
 
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script  src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script>
+    
+    const firebaseConfig = {
+apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
+authDomain: "ephemeral-films.firebaseapp.com",
+projectId: "ephemeral-films",
+storageBucket: "ephemeral-films.appspot.com",
+messagingSenderId: "619401059069",
+appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
+};
+
+      firebase.initializeApp(firebaseConfig)
+  </script> 
   <script>
     
       const email = document.getElementById('email')
       const password = document.getElementById('password')
       const submit = document.getElementById('submit')
       const loginGoogleBtn = document.getElementById('loginGoogleBtn')
+      const db = firebase.firestore()
 
       loginGoogleBtn.addEventListener('click', function(){
         console.log("test");
@@ -70,25 +87,10 @@
           if(user) window.location = "index.html"
         })
       })
+      
     
   </script>
   
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script  src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script>
-      
-      const firebaseConfig = {
-  apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
-  authDomain: "ephemeral-films.firebaseapp.com",
-  projectId: "ephemeral-films",
-  storageBucket: "ephemeral-films.appspot.com",
-  messagingSenderId: "619401059069",
-  appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
-};
-
-        firebase.initializeApp(firebaseConfig)
-    </script> 
   
   
   
