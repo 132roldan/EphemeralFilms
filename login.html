@@ -28,7 +28,7 @@
     <br>
     Password:<br>
   <input type="password" id="password">
-    <input  onclick="removeElement"type="submit" value="login" id="submit"><br><br>
+    <input type="submit" value="login" id="submit"><br><br>
     <input type="button" id="loginGoogleBtn" value="login with Google">
     
 
@@ -78,13 +78,17 @@ appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
 
         firebase.auth().signInWithEmailAndPassword(email.value, password.value)
         .then(function (){
-          window.location = "index.html";
+          debugger
+          // window.location = "index.html";
 
         }).catch(function(err){
           console.log("err",err);
         })
-        firebase.auth().onAuthStateChanged(function (user) {
-          if(user) window.location = "index.html"
+        firebase.auth().onAuthStateChanged(function (user_) {
+          debugger
+          // const user_ = firebase.auth().currentUser
+          console.log('usuario', user_)
+          // if(user) window.location = "index.html"
         })
       })
       

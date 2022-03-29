@@ -32,12 +32,12 @@
     <br>
     Password:<br>
   <input type="password" id="password">
-    <input  onclick="removeElement"type="submit" value="Create" id="submit"><br><br>
+    <input type="submit" value="Create" id="submit"><br><br>
     <input type="button" id="loginGoogleBtn" value="login with Google">
     
 
   </form>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script  src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script>
@@ -74,32 +74,43 @@ appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
           const user = firebase.auth().currentUser;
           console.log("user", user);
           
+        }).then((r)=>{
+          firebase.auth().onAuthStateChanged(user => {
+    if(user){
+      userx = user.uid;
+      debugger
+      console.log('usuarioID',userx)
+      db.collection("Lists").doc(userx).set({
+        nickname:nickname.value,
+        user: userx,
+        listadefilme: `<section>
+        <details>
+        <summary id="lista">${nickname.value+"'s List"}</summary>
+        <section id='${userx}' class="filmesSelected">
+        
+        </section>
+        </details>
+        </section>`,
+        listname: nickname.value+"'s List",
+    
+      })
+    }
+  })
         })
 
       })
 
-      submit.addEventListener('click', function (){
+      submit.addEventListener('click', function (event){
+        event.preventDefault()
         if(!email.value || !password.value || !nickname.value){ 
           console.log('preencher dados');
           return;
           }
-
-
-
           firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
       .then(function (data){
         console.log('user created', data);
-        
-        
-        
-
-      }).catch((err)=> console.log('err', err));
-        firebase.auth().onAuthStateChanged(function (user) {
-          // if(user) window.location = "index.html"
-        })
-      })
-
-      firebase.auth().onAuthStateChanged(user => {
+        firebase.auth().onAuthStateChanged(user => {
+          debugger
     if(user){
       userx = user.uid;
       console.log('usuarioID',userx)
@@ -119,6 +130,14 @@ appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
       })
     }
   })
+        
+        
+
+      }).catch((err)=> console.log('err', err));
+       
+      })
+
+      
     
 </script>
   
