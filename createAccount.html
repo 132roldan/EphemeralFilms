@@ -62,7 +62,7 @@
       })
 
       submit.addEventListener('click', function (){
-        if(!email.value || !password.value){ 
+        if(!email.value || !password.value || !nickname.value){ 
           console.log('preencher dados');
           return;
           }
@@ -72,11 +72,27 @@
           firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
       .then(function (data){
         console.log('user created', data);
-        const user = firebase.auth().currentUser;
-        db.collection("nick").doc(user).update({
-          nickname:nickname.value
-
-        })
+        firebase.auth().onAuthStateChanged(user => {
+    if(user){
+      userx = user.uid;
+      console.log('usuarioID',userx)
+      db.collection("Lists").doc(userx).set({
+        nickname:nickname.value,
+        user: userx,
+        listadefilme: `<section>
+        <details>
+        <summary id="lista">${nickname.value+"'s List"}</summary>
+        <section id='${userx}' class="filmesSelected">
+        
+        </section>
+        </details>
+        </section>`,
+        listname: nickname.value+"'s List",
+    
+      })
+    }
+  })
+        
         
 
       }).catch((err)=> console.log('err', err));

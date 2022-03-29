@@ -11,21 +11,32 @@ src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"
   const crialista = document.getElementById('CreatList')
   const namelist = document.getElementById('ListName')
   const putLists = document.getElementById('AllLists')
-  
+  let count =0
+  let n= ''
 
-  let emptyList
-  let empty 
- async function run(){
-  await db.collection('Lists').get().then((r)=> r.empty).then((r)=>{emptyList = r})
-  
-  }
-  if(!emptyList){
-    userList()
-  }
   let userx = null;
 
+  function contagem(){
+    db.collection(`Lists`).doc(userx).collection(userx).onSnapshot((qs)=>{
+      let i = 0
+      qs.forEach((r)=> i ++ )
+     count = i
+     
+     db.collection('Lists').doc(userx).get().then((r)=>n = r.data().listname).then((r)=>db.collection('Lists').doc(userx).update({
+                
+      listadefilme: `<section>
+      <details>
+      <summary id="lista">${n}(${count})</summary>
+      <section id='${userx}' class="filmesSelected">
+      
+      </section>
+      </details>
+      </section>`,
+    }) )     
+     
+  })
+}
   
-
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     
@@ -56,105 +67,7 @@ let a
   }
   getUserUid()
   //CRIA LISTA
-  
-
-//        function crialistax(){
-//          let NL = namelist.value
-//       let a
-//       //create model list
-//       let createlist = `<section>
-//   <details>
-//     <summary id="lista">${NL}</summary>
-//     <section id='${userx}' class="filmesSelected">
-      
-//     </section>
-//   </details>
-// </section>`
-// //   let createlist = `<section>
-// //   <details>
-// //     <summary id="lista">${namelist.value}</summary>
-// //     <section id='${userx}' class="filmesSelected">
-      
-// //     </section>
-// //   </details>
-// // </section>`
-
-//       //If is not login
-//       if(!userx){
-//         alert('please Login',userx)
-//         return
-//       }//If not puut a name
-//       if(!NL){
-//         alert('please choose a List Name')
-//         return
-//       }//if list not exist
-      
-     
-     
-     
-
-      
-//       run()
-//       if(emptyList){
-
-//        db.collection('Lists').add({
-         
-//           listadefilme: createlist,
-//           user: userx,
-//           listname: NL,
-          
-//         })
-//         console.log('lista criada')
-//         debugger
-//         displayLists()
-
-//       }else{  
-//         a = 0
-//         let i = 0;
-//          db.collection("Lists").onSnapshot((qS) => {
-//            qS.forEach((doc) => {
-//             debugger
-//             let user = (doc.data().user) 
-//             let l = dbLenght("Lists"); 
-            
-            
-            
-             
-//             i++
-//            if(user === userx && a!==1){
-//              a = 1
-//              alert('You already have a list!')
-            
-//              }
-            
-           
-           
-//            if(i > l && a === 0 ){
-//             debugger
-//            db.collection('Lists').add({
-//               listadefilme: createlist,
-//               user: userx,
-//               listname: NL,
-              
-//             })
-            
-//             displayLists()
-//             a = 1
-
-//           }
-           
-//           })
-            
-//       })
-      
-//     }
-      
-//   }
-      
-   
-
-          
-    
+ 
       
   
   function removeElement() {
@@ -216,10 +129,7 @@ let a
   
   //Select movie card
     const selected = element.parentElement;
-    // const Pselected = selected.parentElement;
-    // console.log("selected", selected)
-    // if(userx === Pselected.getAttribute('id')){
-    // selected.classList.toggle('uncheck')
+   
     if(element.getAttribute('class') === 'delet'){
       element.innerHTML = "SELECT";
       element.removeAttribute('class', 'delet')
@@ -227,8 +137,10 @@ let a
   
       let getid = selected.getAttribute('id')
       console.log('esse eh o getid', getid)
-      db.collection(`${userx}`).doc(`${getid}`).delete()
+      db.collection(`Lists`).doc(userx).collection(`${userx}`).doc(`${getid}`).delete()
+      
     }else{
+
     const colocar = document.querySelector('.filmesSelected')
     
   
@@ -238,7 +150,7 @@ let a
    
    //
   //  let userx = firebase.auth().currentUser
-    db.collection(userx).doc(selected.getElementsByTagName('h2')[0].innerHTML).set({
+    db.collection('Lists').doc(userx).collection(userx).add({
       movie: selected.innerHTML,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       
@@ -247,7 +159,7 @@ let a
       console.log('Document written with id:', doc.id);
       selected.setAttribute("id", doc.id)
       selected = '';
-  
+      contagem()
   
   
     }).catch(function (err) {
@@ -260,25 +172,24 @@ let a
 function showMovies(){
   // debugger
   if(document.getElementById('lista')){
-  
-  db.collection(`${userx}`)
+    let output=''
+  db.collection('Lists').doc(userx).collection(`${userx}`)
     .orderBy("timestamp")
     .onSnapshot(
       (qS) => {
+        
         let output = '';
         const secData = document.querySelector(`#${userx}`)
 
-        qS.forEach((doc) => {
+        qS.forEach((doc) =>{ 
           
-          output += `<li id='${doc.id}' >${doc.data().movie}</li>`;
-          console.log("doc.id", doc.id)
-        });
+          
+          output += `<li id='${doc.id}'>${doc.data().movie}</li>`
+      }
+        );
         //DISPLAY MOVIE LIST
         secData.innerHTML = output;
-      },
-      (error) => {
-        console.log(error)
-      }
+      }    
 
     );
     }
@@ -287,37 +198,7 @@ function showMovies(){
 showMovies()
 
 
-// function displayLists(){
-// db.collection("Lists")
-//         .onSnapshot(
-//       (querySnapshot) => {
-//         let output = '';
-//         const putLists = document.getElementById('AllLists')
 
-//         querySnapshot.forEach((doc) => {
-//           console.log("doc.data do forEach", doc.data())
-//           if(`${doc.data().user}` === userx){
-//           output += `${doc.data().listadefilme}`;
-//           //get userID
-          
-            
-//           }
-//           putLists.innerHTML = output;
-//           // console.log("doc.id", doc.id)
-//         });
-        
-        
-//         // console.log("output",output)
-//       },
-//       (error) => {
-//         console.log(error)
-//       }
-
-//     );
-    
-//       document.getElementById('AllLists').innerHTML += createlist;
-//     }
-//     displayLists()
  
    function logoff(){
     firebase.auth().onAuthStateChanged(function (user){
@@ -334,84 +215,38 @@ return empty
 }
 isEmpty()
 
-// function displayList(){
-//   db.collection("Lists")
-//           .onSnapshot(
-//         (qS) => {
-//           // debugger
-//           let Io = '';          
-  
-//           qS.forEach((doc) => {
-//             //check if is the current user
-//             if(`${doc.data().user}` === userx){
-//               // debugger
-//             Io += `${doc.data().listadefilme}`;
-//             //get userID
-                         
-//             }
-//             putLists.innerHTML = Io;
-//             // console.log("doc.id", doc.id)
-//           });
-                    
-//           // console.log("output",output)
-//         },
-//         (error) => {
-//           console.log(error)
-//         }
-  
-//       );
-      
-        
+
 //       }displayList()
-      function crialistax(){
-        let NL = namelist.value
-        //create model list
-        let createlist = `<section>
-        <details>
-        <summary id="lista">${NL}</summary>
-        <section id='${userx}' class="filmesSelected">
-        
-        </section>
-        </details>
-        </section>`
-        
-        if(!userx){
-         alert('please Login',userx)
-         return
-        }//If not puut a name 
-        if(!NL){
-         alert('please choose a List Name')
-         return
-        }
-        a = 0
-          let i = 0;
-           db.collection("Lists").onSnapshot((qS) => {
-             qS.forEach((doc) => {
-              // debugger
-              let user = (doc.data().user) 
-               firebase.firestore().collection('Lists').get().then((r)=>l = r.docs.length) 
-              console.log('valor de l', l)
-              i++
-             if(user === userx && a!==1){
-              //  debugger
-               a = 1
-               alert('You already have a list!')
-              return
-               }
-              
-             if(i === l && a === 0 ){
-              // debugger
-              a = 1
-             db.collection('Lists').add({
-                listadefilme: createlist,
-                user: userx,
-                listname: NL,
-                nickname: firebase.auth().currentUser.displayName
+      function updateList(){
+              if(count === 0){
+             db.collection('Lists').doc(userx).update({
                 
-              })  
-            }
-          })
-        })
+              listadefilme: `<section>
+              <details>
+              <summary id="lista">${namelist.value}</summary>
+              <section id='${userx}' class="filmesSelected">
+              
+              </section>
+              </details>
+              </section>`,
+              listname: namelist.value,                 
+              })
+              
+            }else{
+                db.collection('Lists').doc(userx).update({
+                
+                  listadefilme: `<section>
+                  <details>
+                  <summary id="lista">${namelist.value}(${count})</summary>
+                  <section id='${userx}' class="filmesSelected">
+                  
+                  </section>
+                  </details>
+                  </section>`,
+                  listname: namelist.value, 
+              })
+            } 
+              userList()
         
 
 }
@@ -429,11 +264,9 @@ isEmpty()
         const putLists = document.getElementById('AllLists')
 
         querySnapshot.forEach((doc) => {
-          let user = (doc.data().user)
-          let listaFilme = (doc.data().listadefilme)
-          // console.log(listaFilme)
-          let _listaname = (doc.data().listname) 
           
+          let user = (doc.data().user)
+                   
           if(user === userx){
           output += `${doc.data().listadefilme}`;
           
@@ -444,5 +277,6 @@ isEmpty()
       })
       showMovies()
     }    userList()
+    document.addEventListener('click', function(){contagem()})
     document.addEventListener('click', function(){showMovies()})
     
