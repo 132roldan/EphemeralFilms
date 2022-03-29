@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/hovers.css">
+    <link rel="stylesheet" href="css/material.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/defaults.css">
+
+
+
+    <title>Ephemeral Film List</title>
+</head>
+
+<body class="mdl-demo  mdl-base">
+
+
+    <header>
+        <nav>
+            <a href="index.html">Go back</a>
+
+        </nav>
+    </header>
+    <h2></h2>
+
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp mx-1 my-1 ">
+        <header class="d-flex justify-content-center section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white" id="pic-placeholder">
+            <i class="material-icons">play_circle_filled</i>
+        </header>
+
+        <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+            <div>
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon " id="card-more-button" data-upgraded=",MaterialButton,MaterialRipple">
+                        <i class="material-icons">more_vert</i>
+                        <span class="mdl-button__ripple-container">
+                            <span class="mdl-ripple"></span>
+                        </span> 
+                        </button>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <h4>
+                    film title
+                </h4>
+                <h5>
+                    film year
+                </h5>
+                <p>
+                    film description
+                </p>
+            </div>
+
+            <div class="mdl-card__actions">
+                <a href="#" class="mdl-button">Read More</a>
+            </div>
+        </div>
+        <div class="mdl-menu__container is-upgraded">
+            <div class="mdl-menu__outline mdl-menu--bottom-right"></div>
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menubtn">
+                <li class="mdl-menu__item">Lorem</li>
+                <li class="mdl-menu__item">Ipsum</li>
+                <li disabled class="mdl-menu__item">Dolor</li>
+                <li class="mdl-menu__item">Sit</li>
+                <li class="mdl-menu__item">Amet</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+        <div class="mdl-card mdl-cell mdl-cell--12-col mx-1 my-1">
+            <div class="mdl-card__supporting-text mdl-grid mdl-grid--no-spacing">
+                <h4 class="mdl-cell mdl-cell--12-col">Details</h4>
+                <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                    <div class="section__circle-container__circle mdl-color--primary"></div>
+                </div>
+                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                    <h5>Lorem ipsum dolor sit amet</h5>
+                    Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.
+                </div>
+                <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                    <div class="section__circle-container__circle mdl-color--primary"></div>
+                </div>
+                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                    <h5>Lorem ipsum dolor sit amet</h5>
+                    Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.
+                </div>
+                <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
+                    <div class="section__circle-container__circle mdl-color--primary"></div>
+                </div>
+                <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                    <h5>Lorem ipsum dolor sit amet</h5>
+                    Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Duis nulla tempor do aute et eiusmod velit exercitation nostrud quis <a href="#">proident minim</a>.
+                </div>
+            </div>
+            <div class="mdl-card__actions">
+                <a href="#" class="mdl-button">Read our features</a>
+            </div>
+        </div>
+    </section>
+
+
+    <form class="login-form" id="form">
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="email" name="email">
+            <label class="mdl-textfield__label" for="email">email</label>
+        </div>
+        <br>
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="password" id="password" name="password">
+            <label class="mdl-textfield__label" for="password">password</label>
+        </div>
+        <br><br>
+        <input class="mdl-button large-button mdl-js-button mdl-button--raised" onclick="removeElement" type="submit" value="login" id="submit">
+        <br><br><br>
+        <div>
+            <input class="mdl-button large-button mdl-js-button mdl-button--raised" type="button" id="loginGoogleBtn" value="login with Google">
+        </div>
+        <br><br>
+
+    </form>
+</body>
+
+</html>

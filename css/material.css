@@ -26,3 +26,27 @@
 .mdl-button:hover {
     transform: scale(1.05);
 }
+
+#card-more-button {
+    float: right!important;
+}
+
+#pic-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mx-1 {
+    margin-left: 1rem!important;
+    margin-right: 1rem!important;
+}
+
+.my-1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mdl-card {
+    background: #eee;
+}
