@@ -79,11 +79,13 @@ function displaylists(){
 
            
     function check(element) {
+      
       const db = firebase.firestore();
     
     //Select movie card
       const selected = element.parentElement;
-     
+      let getid = selected.getAttribute('id')
+      if(getid===userx){
       if(element.getAttribute('class') === 'delet'){
         element.innerHTML = "SELECT";
         element.removeAttribute('class', 'delet')
@@ -91,6 +93,7 @@ function displaylists(){
     
         let getid = selected.getAttribute('id')
         console.log('esse eh o getid', getid)
+        
         db.collection(`Lists`).doc(userx).collection(`${userx}`).doc(`${getid}`).delete()
         
       }else{
@@ -120,7 +123,7 @@ function displaylists(){
         console.log(error, err)
       })
     }
-     
+  }
     }
     function contagem(){
       db.collection(`Lists`).doc(userx).collection(userx).onSnapshot((qs)=>{
