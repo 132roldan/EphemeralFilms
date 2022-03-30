@@ -46,15 +46,15 @@
             <label class="mdl-textfield__label" for="password">password</label>
         </div>
         <br><br>
-        <input class="mdl-button large-button mdl-js-button mdl-button--raised" onclick="removeElement" type="submit" value="create account" id="submit">
+        <input class="mdl-button large-button mdl-js-button mdl-button--raised" type="submit" value="create account" id="submit">
         <br><br>
         <div>
             <input class="mdl-button large-button mdl-js-button mdl-button--raised" type="button" id="loginGoogleBtn" value="login with Google">
         </div>
         <br><br>
-
-
     </form>
+
+
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
@@ -96,12 +96,11 @@
                 firebase.auth().onAuthStateChanged(user => {
                     if (user) {
                         userx = user.uid;
-                        debugger
                         console.log('usuarioID', userx)
                         db.collection("Lists").doc(userx).set({
-                            nickname: nickname.value,
-                            user: userx,
-                            listadefilme: `<section>
+                                nickname: nickname.value,
+                                user: userx,
+                                listadefilme: `<section>
         <details>
         <summary id="lista">${nickname.value+"'s List"}</summary>
         <section id='${userx}' class="filmesSelected">
@@ -109,14 +108,20 @@
         </section>
         </details>
         </section>`,
-                            listname: nickname.value + "'s List",
+                                listname: nickname.value + "'s List",
 
-                        })
-                        window.location = 'lista.html'
+                            })
+                            //window.location = 'lista.html'
 
                     }
                 })
-            })
+            }).then(() => {
+                setTimeout(() => {
+                    window.location = 'lista.html'
+                }, 1000);
+            }).catch(function(error) {
+                console.error(error);
+            });
 
         })
 
@@ -150,10 +155,14 @@
                         }
                     })
 
-                    if (user) window.location = 'lista.html'
 
-
-                }).catch((err) => console.log('err', err));
+                })
+                .then(function(data) {
+                    setTimeout(() => {
+                        window.location = 'lista.html'
+                    }, 1000);
+                })
+                .catch((err) => console.log('err', err));
 
         })
     </script>
