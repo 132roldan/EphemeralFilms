@@ -53,7 +53,14 @@
 
         firebase.initializeApp(firebaseConfig)
     </script> 
-  
+  <script>
+    function logoff(){
+    firebase.auth().onAuthStateChanged(function (user){
+      if (user) firebase.auth().signOut()
+      console.log('user logout', user)
+    })
+  }
+  </script>
   <!-- <script src="./scripts.js"></script> -->
   <script src="displayAllLists.js"></script>
   <!-- <script src="./getLists.js"></script> -->
