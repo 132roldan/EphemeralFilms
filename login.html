@@ -82,7 +82,14 @@
                 console.log("user", user);
             })
 
+            firebase.auth().onAuthStateChanged(function(user_) {
+                // const user_ = firebase.auth().currentUser
+                console.log('usuario', user_)
+                if (user) window.location = "lista.html"
+            })
+
         })
+
 
         submit.addEventListener('click', function() {
             event.preventDefault()
@@ -93,17 +100,15 @@
 
             firebase.auth().signInWithEmailAndPassword(email.value, password.value)
                 .then(function() {
-                    debugger
                     // window.location = "index.html";
 
                 }).catch(function(err) {
                     console.log("err", err);
                 })
             firebase.auth().onAuthStateChanged(function(user_) {
-                debugger
                 // const user_ = firebase.auth().currentUser
                 console.log('usuario', user_)
-                    // if(user) window.location = "index.html"
+                if (user) window.location = "lista.html"
             })
         })
     </script>

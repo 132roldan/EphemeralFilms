@@ -81,9 +81,10 @@
 
         loginGoogleBtn.addEventListener('click', function() {
             if (!nickname.value) {
-                console.error("preencher nickname!!")
+                alert("choose a nickname first!")
                 return
             }
+
             console.log("test");
             const provider = new firebase.auth.GoogleAuthProvider();
 
@@ -111,6 +112,8 @@
                             listname: nickname.value + "'s List",
 
                         })
+                        window.location = 'lista.html'
+
                     }
                 })
             })
@@ -120,14 +123,13 @@
         submit.addEventListener('click', function(event) {
             event.preventDefault()
             if (!email.value || !password.value || !nickname.value) {
-                console.log('preencher dados');
+                alert('Please fill in all the fields');
                 return;
             }
             firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
                 .then(function(data) {
                     console.log('user created', data);
                     firebase.auth().onAuthStateChanged(user => {
-                        debugger
                         if (user) {
                             userx = user.uid;
                             console.log('usuarioID', userx)
@@ -148,6 +150,7 @@
                         }
                     })
 
+                    if (user) window.location = 'lista.html'
 
 
                 }).catch((err) => console.log('err', err));
