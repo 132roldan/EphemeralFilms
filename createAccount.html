@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -16,8 +15,6 @@
     <link rel="stylesheet" href="css/material.css">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/defaults.css">
-
-
     <title>Ephemeral Film List</title>
 </head>
 
@@ -31,6 +28,7 @@
         </nav>
     </header>
     <h2></h2>
+
 
 
     <form class="create-account-form" id="form">
@@ -58,12 +56,28 @@
 
     </form>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
+            authDomain: "ephemeral-films.firebaseapp.com",
+            projectId: "ephemeral-films",
+            storageBucket: "ephemeral-films.appspot.com",
+            messagingSenderId: "619401059069",
+            appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
+        };
+
+        firebase.initializeApp(firebaseConfig)
+    </script>
     <script>
         const email = document.getElementById('email')
         const nickname = document.getElementById('nickname')
         const password = document.getElementById('password')
         const submit = document.getElementById('submit')
         const loginGoogleBtn = document.getElementById('loginGoogleBtn')
+        const db = firebase.firestore()
 
         loginGoogleBtn.addEventListener('click', function() {
             if (!nickname.value) {
@@ -76,47 +90,74 @@
             firebase.auth().signInWithPopup(provider).then(function() {
                 const user = firebase.auth().currentUser;
                 console.log("user", user);
+
+            }).then((r) => {
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user) {
+                        userx = user.uid;
+                        debugger
+                        console.log('usuarioID', userx)
+                        db.collection("Lists").doc(userx).set({
+                            nickname: nickname.value,
+                            user: userx,
+                            listadefilme: `<section>
+        <details>
+        <summary id="lista">${nickname.value+"'s List"}</summary>
+        <section id='${userx}' class="filmesSelected">
+        
+        </section>
+        </details>
+        </section>`,
+                            listname: nickname.value + "'s List",
+
+                        })
+                    }
+                })
             })
 
         })
 
-        submit.addEventListener('click', function() {
-            if (!email.value || !password.value) {
+        submit.addEventListener('click', function(event) {
+            event.preventDefault()
+            if (!email.value || !password.value || !nickname.value) {
                 console.log('preencher dados');
                 return;
             }
+            firebase.auth().createUserWithEmailAndPassword(email.value, password.value)
+                .then(function(data) {
+                    console.log('user created', data);
+                    firebase.auth().onAuthStateChanged(user => {
+                        debugger
+                        if (user) {
+                            userx = user.uid;
+                            console.log('usuarioID', userx)
+                            db.collection("Lists").doc(userx).set({
+                                nickname: nickname.value,
+                                user: userx,
+                                listadefilme: `<section>
+        <details>
+        <summary id="lista">${nickname.value+"'s List"}</summary>
+        <section id='${userx}' class="filmesSelected">
+        
+        </section>
+        </details>
+        </section>`,
+                                listname: nickname.value + "'s List",
 
-            firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-                .then(function() {
-                    window.location = "index.html";
+                            })
+                        }
+                    })
 
-                }).catch(function(err) {
-                    console.log("err", err);
-                })
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (user) window.location = "index.html"
-            })
+
+
+                }).catch((err) => console.log('err', err));
+
         })
     </script>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyAt3jdMn9h8Mx-kubozRF6KRrmMCUi3s18",
-            authDomain: "nomesobrenome-a1747.firebaseapp.com",
-            databaseURL: "https://nomesobrenome-a1747-default-rtdb.firebaseio.com",
-            projectId: "nomesobrenome-a1747",
-            storageBucket: "nomesobrenome-a1747.appspot.com",
-            messagingSenderId: "53306747867",
-            appId: "1:53306747867:web:27566e9ad4c1078a9a95fe"
-        };
 
-        firebase.initializeApp(firebaseConfig)
-    </script>
 
-    <script src="./scripts.js"></script>
+
 
 </body>
 
