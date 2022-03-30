@@ -50,3 +50,7 @@
 .mdl-card {
     background: #eee;
 }
+
+.mdl-button--red {
+    background: #f44336;
+}
