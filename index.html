@@ -1,40 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/css/profile.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Poppins:wght@300;400;500;600&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./css/profile.css" />
     <title>Ephemeral Film List</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <header>
-        <nav>
+      <nav>
+        <a href="index.html">Make your ephemeral film list</a>
 
-            <a href="index.html">Make your ephemeral film list</a>
+        <a href="login.html">login</a>
 
+        <a href="lista.html">Your List </a>
 
-            <a href="login.html">login</a>
+        <a href="./assets/no-photo.jpg">Cretate account + </a>
+        <button
+          class="mdl-button mdl-js-button mdl-button--red"
+          type="button"
+          value="logoff"
+          id="logoff"
+          onclick="logoff()"
+        >
+          logoff
+        </button>
 
-            <a href="lista.html">Your List </a>
-
-            <a href="./assets/no-photo.jpg">Cretate account + </a>
-            <button class="mdl-button mdl-js-button mdl-button--red" type="button" value="logoff" id="logoff" onclick="logoff()">
-                logoff
-              </button>
-
-
-            <img src="https://developers.google.com/web/updates/2019/01/user-activation" class="profile-pic" id="profile-pic">
-        </nav>
+        <img
+          src="https://developers.google.com/web/updates/2019/01/user-activation"
+          class="profile-pic"
+          id="profile-pic"
+        />
+      </nav>
     </header>
     <div id="AllLists">
-        <!-- <section>
+      <!-- <section>
       <details>
         <summary >sddsd</summary>
         <section id='lista' class="filmesSelected">
@@ -42,40 +50,36 @@
         </section>
       </details>
     </section> -->
-
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
-            authDomain: "ephemeral-films.firebaseapp.com",
-            projectId: "ephemeral-films",
-            storageBucket: "ephemeral-films.appspot.com",
-            messagingSenderId: "619401059069",
-            appId: "1:619401059069:web:f15b1c3ca1d44b97073c94"
-        };
+      const firebaseConfig = {
+        apiKey: "AIzaSyDwuhBt0XH_UOZEYZIZcLzjdvuvyvgWk7E",
+        authDomain: "ephemeral-films.firebaseapp.com",
+        projectId: "ephemeral-films",
+        storageBucket: "ephemeral-films.appspot.com",
+        messagingSenderId: "619401059069",
+        appId: "1:619401059069:web:f15b1c3ca1d44b97073c94",
+      };
 
-        firebase.initializeApp(firebaseConfig)
+      firebase.initializeApp(firebaseConfig);
     </script>
     <script>
-        function logoff() {
-            firebase.auth().onAuthStateChanged(function(user) {
-                if (user) firebase.auth().signOut()
-                console.log('user logout', user)
-            })
-        }
+      function logoff() {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) firebase.auth().signOut();
+          console.log("user logout", user);
+        });
+      }
     </script>
     <!-- <script src="./scripts.js"></script> -->
     <script src="displayAllLists.js"></script>
 
-
     <!-- <script src="./getLists.js"></script> -->
     <!-- <script src="./displayAllLists.js"></script>
   <script src="./check.js"></script> -->
-
-</body>
-
+  </body>
 </html>
